@@ -1,0 +1,32 @@
+{
+  "name": "midi-port-holder",
+  "version": "1.0.0",
+  "description": "Bind to midi port by name and expose switchable duplex stream.",
+  "main": "index.js",
+  "scripts": {
+    "test": "tape test/*.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mmckegg/midi-port-holder.git"
+  },
+  "keywords": [
+    "midi",
+    "observ",
+    "switch"
+  ],
+  "author": "Matt McKegg",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mmckegg/midi-port-holder/issues"
+  },
+  "homepage": "https://github.com/mmckegg/midi-port-holder",
+  "dependencies": {
+    "deep-equal": "^0.2.1",
+    "midi-stream": "^1.0.0",
+    "next-tick": "^0.2.2",
+    "observ": "^0.2.0",
+    "stream": "0.0.1",
+    "switch-stream": "0.0.0"
+  }
+}
