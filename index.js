@@ -8,7 +8,7 @@ var deepEqual = require('deep-equal')
 
 module.exports = PortHolder
 
-function PortHolder(context){
+function PortHolder(){
   var empty = new Stream()
   empty.write = function(){
     // evaporate!
