@@ -1,10 +1,14 @@
-var MidiStream = require('midi-stream')
 var nextTick = require('next-tick')
 var Observ = require('observ')
 var watch = require('observ/watch')
 var Switcher = require('switch-stream')
+var PortStack = require('./port-stack.js')
 var Stream = require('stream')
 var deepEqual = require('deep-equal')
+
+var versionKey = 2
+var cacheKey = "__MIDI_PORT_HOLDER_CACHE@" + versionKey
+var getPort = document[cacheKey] = document[cacheKey] || PortStack()
 
 module.exports = PortHolder
 
@@ -30,28 +34,35 @@ function PortHolder(){
     }
   }
 
+  obs.grab = function(){
+    if (port){
+      port.grab()
+    }
+  }
+
+  function switchHandler(){
+    obs.stream.emit('switch')
+  }
+
   watch(obs, function(descriptor){
-    if (!deepEqual(descriptor,lastValue)){
-
+    if (descriptor !== lastValue){
       if (typeof descriptor === 'string'){
-        descriptor = [descriptor]
-      }
-
-      if (Array.isArray(descriptor) && descriptor[0]){
-        port = MidiStream(descriptor[0], descriptor[1] || 0)
-        port.on('connect', function(){
-          obs.stream.set(port)
-          obs.stream.emit('switch')
-          console.log('connect', descriptor, port)
+        nextTick(function(){
+          getPort(descriptor, function(err, res){
+            if (!err){
+              port = res
+              obs.stream.set(port)
+              obs.stream.emit('switch')
+              port.on('switch', switchHandler)
+              console.log('connect', descriptor, port)
+            } else if (port) {
+              port.removeListener('switch', switchHandler)
+              obs.stream.set(empty)
+              console.log('disconnect', port)
+              port = null
+            }
+          })
         })
-        port.on('error', function(){
-          obs.stream.set(empty)
-          port = null
-        })
-      } else {
-        obs.stream.set(empty)
-        console.log('disconnect', port)
-        port = null
       }
       lastValue = descriptor
     }
