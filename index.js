@@ -54,11 +54,9 @@ function PortHolder(){
               obs.stream.set(port)
               obs.stream.emit('switch')
               port.on('switch', switchHandler)
-              console.log('connect', descriptor, port)
             } else if (port) {
               port.removeListener('switch', switchHandler)
               obs.stream.set(empty)
-              console.log('disconnect', port)
               port = null
             }
           })

@@ -23,7 +23,6 @@ function PortStack(){
   // cache port names
   MidiStream.getPortNames(function(err, names){
     portNames = names || []
-    console.log(portNames)
     initialized = true
     queue.forEach(function(args){
       getPort.apply(this, args)
@@ -49,7 +48,6 @@ function PortStack(){
       }
       stack.push(port)
 
-      console.log('port', port)
       port.set(getRawPort(port.name))
       port.emit('switch')
     }
