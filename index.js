@@ -49,12 +49,14 @@ function PortHolder(){
       if (typeof descriptor === 'string'){
         nextTick(function(){
           getPort(descriptor, function(err, res){
-            if (!err){
+            if (res){
+              obs.stream.emit('switching')
               port = res
               obs.stream.set(port)
               obs.stream.emit('switch')
               port.on('switch', switchHandler)
             } else if (port) {
+              obs.stream.emit('switching')
               port.removeListener('switch', switchHandler)
               obs.stream.set(empty)
               port = null

@@ -80,6 +80,8 @@ function PortStack(){
       port.close = close
       port.grab()
       cb(null, port)
+    } else {
+      cb(null, null)
     }
   }
 
