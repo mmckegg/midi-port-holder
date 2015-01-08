@@ -1,6 +1,6 @@
 {
   "name": "midi-port-holder",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Bind to midi port by name and expose switchable duplex stream.",
   "main": "index.js",
   "scripts": {
