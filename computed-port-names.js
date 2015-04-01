@@ -7,7 +7,9 @@ function ObservAvailableMidiPorts(){
   // TODO: update on available ports change
   // can use new onConnect web-midi api when becomes available (and polling under node?)
   MidiStream.getPortNames(function(err, names){
-    obs.set(names.sort())
+    if (names){
+      obs.set(names.sort())
+    }
   })
   return obs
 }
