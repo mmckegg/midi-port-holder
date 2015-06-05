@@ -23,7 +23,7 @@
   "homepage": "https://github.com/mmckegg/midi-port-holder",
   "dependencies": {
     "deep-equal": "^0.2.1",
-    "midi-stream": "^1.0.0",
+    "midi-stream": "^1.1.0",
     "next-tick": "^0.2.2",
     "observ": "^0.2.0",
     "stream": "0.0.1",
