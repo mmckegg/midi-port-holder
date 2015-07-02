@@ -8,7 +8,7 @@ var deepEqual = require('deep-equal')
 
 var versionKey = 2
 var cacheKey = "__MIDI_PORT_HOLDER_CACHE@" + versionKey
-var getPort = document[cacheKey] = document[cacheKey] || PortStack()
+var getPort = global[cacheKey] = global[cacheKey] || PortStack()
 
 module.exports = PortHolder
 
