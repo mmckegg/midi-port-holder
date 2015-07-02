@@ -19,7 +19,10 @@ $ npm install midi-port-holder
 var PortHolder = require('midi-port-holder')
 ```
 
-### var portHolder = PortHolder()
+### var portHolder = PortHolder(options)
+
+*options*
+  - `global`: bypass grab stack, just listen all the time until close 
 
 Returns an extended observ instance.
 

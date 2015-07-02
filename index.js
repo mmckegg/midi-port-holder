@@ -12,7 +12,7 @@ var getPort = document[cacheKey] = document[cacheKey] || PortStack()
 
 module.exports = PortHolder
 
-function PortHolder(){
+function PortHolder(options){
   var empty = new Stream()
   empty.write = function(){
     // evaporate!
@@ -30,12 +30,16 @@ function PortHolder(){
 
   obs.destroy = function(){
     if (port){
-      port.close()
+      if (port.grab) {
+        port.close()
+      } else {
+        obs.stream.set(empty)
+      }
     }
   }
 
   obs.grab = function(){
-    if (port){
+    if (port && port.grab){
       port.grab()
     }
   }
@@ -48,7 +52,7 @@ function PortHolder(){
     if (descriptor !== lastValue){
       if (typeof descriptor === 'string'){
         nextTick(function(){
-          getPort(descriptor, function(err, res){
+          getPort(descriptor, options, function(err, res){
             if (res){
               obs.stream.emit('switching')
               port = res

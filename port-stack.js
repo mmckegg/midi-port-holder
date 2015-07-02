@@ -72,24 +72,36 @@ function PortStack(){
     port.end()
   }
 
-  function getPort(name, cb){
+  function getPort(name, options, cb){
+
+    if (typeof options === 'function') {
+      cb = options
+      options = {}
+    }
+
     if (~portNames.indexOf(name)){
-      var port = Switcher(empty)
-      port.name = name
-      port.grab = grab
-      port.close = close
-      port.grab()
-      cb(null, port)
+
+      if (options && options.global) {
+        cb(null, getRawPort(name))
+      } else {
+        var port = Switcher(empty)
+        port.name = name
+        port.grab = grab
+        port.close = close
+        port.grab()
+        cb(null, port)
+      }
+
     } else {
       cb(null, null)
     }
   }
 
-  return function(name, cb){
+  return function(name, options, cb){
     if (!initialized){
-      queue.push([name, cb])
+      queue.push([name, options, cb])
     } else {
-      getPort(name, cb)
+      getPort(name, options, cb)
     }
   }
 
