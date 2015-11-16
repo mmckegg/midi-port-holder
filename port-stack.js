@@ -30,7 +30,9 @@ function PortStack(){
   })
 
   function getRawPort(name){
-    return lookup[name] = lookup[name] || MidiStream(name)
+    return lookup[name] = lookup[name] || MidiStream(name, {
+      normalizeNotes: true
+    })
   }
 
   function grab(){
